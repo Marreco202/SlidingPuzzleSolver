@@ -37,7 +37,7 @@ def permutation(ini,n,combo):
 
 
 print("Calculando permutações...")
-permutation(1,8,list([]))
+permutation(1,9,list([]))
 # print(total_combo_list)
 print("tamanho da lista: ",len(total_combo_list))
 
