@@ -6,10 +6,37 @@ Alunos:
     João Victor Godinho - 2011401
 '''
 
+'''
+1
+12 21
+312 132 123 321 231 213
+(...) 
+12345678 (...) 87654321
+
+1) retornar as folhas
+2) dar append na lista de x em todas as posições entre eles
+    --> .insert(indicie) até indice len(n-1)
+
+'''
+
+total_combo_list = []
+
+def permutation(ini,n,combo):
+    if(ini == n):
+        for i in range(0,n):
+            combo.insert(i+1,'x')
+            total_combo_list.append(combo)
+        return
+
+    for i in range(0,ini):
+        combo.insert(i+1,ini)
+        permutation(ini+1,n,combo)
 
 
-def teste():
-    print("hello world!")
-    return
+print("Calculando permutações...")
+permutation(1,8,list([]))
+# print(total_combo_list)
+print("tamanho da lista: ",len(total_combo_list))
 
-asdasd
+f = open("out.txt","w")
+f.write(str(total_combo_list))
