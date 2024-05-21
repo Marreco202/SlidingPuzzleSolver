@@ -33,6 +33,7 @@ def permutation(ini,n,combo):
     for i in range(0,ini):
         combo.insert(i,ini)
         permutation(ini+1,n,combo)
+        combo.remove(ini)
 
 
 print("Calculando permutações...")
