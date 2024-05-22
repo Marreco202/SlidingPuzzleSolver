@@ -53,54 +53,73 @@ def invertDict(dicio): # combo : id
     return dict((v, k) for k, v in dicio.items())
 
 def troca_x(lista,x_pos,new_x_pos):
+    # print("ainda nao troquei! ",lista)
+
     buf = lista[x_pos]
     lista[x_pos] = lista[new_x_pos]
     lista[new_x_pos] = buf
+    # print("troquei! ",lista)
     return lista
 
 def createGraph(combo_list,id_to_tuple,tuple_to_id):
     node_list = []
 
     for i in range(0,len(combo_list)):        
-        buf = combo_list[i]
+        buf = combo_list[i].copy()
         x_position = buf.index('x')
         inner_buff = [] #lista de vizinhos
 
+        ref = buf #nao perder a referencia do buf. Se nao ele so realzia a primeira troca
+
+
         match x_position: #define quem são os vizinhos baseados na posição do x com um switch case
             case 8:
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 7:
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 6:
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 5:
-                inner_buff.append(troca_x(buf,x_position,x_position+3))
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 4:
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position+3))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 3:
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position+3))
-                inner_buff.append(troca_x(buf,x_position,x_position-3))
-            case 2:
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position+3))
-            case 1:
-                inner_buff.append(troca_x(buf,x_position,x_position-1))
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position+3))
-            case 0:
-                inner_buff.append(troca_x(buf,x_position,x_position+1))
-                inner_buff.append(troca_x(buf,x_position,x_position+5))
+                possible_moves = (x_position-1,x_position-3)
+                x_position = buf.index('x')
+                inner_buff.append(troca_x(buf,x_position,possible_moves[1]))
+                x_position = buf.index('x')
+                
 
+            case 7:
+                possible_moves = (x_position+1,x_position-1,x_position-3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[2]))
+            case 6:
+                possible_moves = (x_position+1,x_position-3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+            case 5:
+                possible_moves = (x_position+3,x_position-1,x_position-3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[2]))
+            case 4:
+                possible_moves = (x_position+1,x_position-1,x_position+3,x_position-3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[2]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[3]))
+            case 3:
+                possible_moves = (x_position+1,x_position+3,x_position-3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[2]))
+            case 2:
+                possible_moves = (x_position-1,x_position+3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+            case 1:
+                possible_moves = (x_position-1,x_position+1,x_position+3)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[2]))
+            case 0:
+                possible_moves = (x_position+1,x_position+5)
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
+        
+        # print(inner_buff)
         node_list.append(Node(i,inner_buff)) #nao sei se funciona, deve funcionar.
     return node_list
 
@@ -108,4 +127,8 @@ print("Calculando permutações...")
 total_combo_list = permutation(1,9,list([]))
 # print(total_combo_list)
 print("tamanho da lista: ",len(total_combo_list))
+grafo = createGraph(total_combo_list,{},{})
+
+for no in grafo:
+    print(no.vizinhos)
 
