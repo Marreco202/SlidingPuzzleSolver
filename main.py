@@ -42,11 +42,18 @@ def permutation(ini,n,combo):
         combo.remove(ini)
     return permu_list
 
+def createHash(combo_list): # id : combo
+    dicio = {}
+    for i in range(0,len(combo_list)):
+        dicio[i] = tuple(combo_list[i])
+    return dicio
+
+def invertDict(dicio): # combo : id
+    # print("Hello there!")
+    return dict((v, k) for k, v in dicio.items())
 
 print("Calculando permutações...")
 total_combo_list = permutation(1,9,list([]))
-print(total_combo_list)
+# print(total_combo_list)
 print("tamanho da lista: ",len(total_combo_list))
 
-# f = open("out.txt","w")
-# f.write(str(total_combo_list))
