@@ -2,7 +2,7 @@
 Trabalho 2 - Análise de Algoritmos
 
 Alunos:
-    Guilherme Ponce - <inserir matrícula>
+    Guilherme Ponce - 2011179
     João Victor Godinho - 2011401
 '''
 
