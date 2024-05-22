@@ -1,4 +1,10 @@
-class node:
+class Node:
+    id = -1
+    vizinhos = []
+
     def __init__(self,id_in,vizinhos_in) -> None:
-        id = id_in
-        vizinhos = vizinhos_in
+        self.id = id_in
+        self.vizinhos = vizinhos_in
+    
+    def vizinho(self,no_de_estados):
+        self.vizinhos.append(no_de_estados)
