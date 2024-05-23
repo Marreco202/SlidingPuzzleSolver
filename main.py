@@ -61,16 +61,13 @@ def troca_x(lista,x_pos,new_x_pos):
     # print("troquei! ",lista)
     return lista
 
-def createGraph(combo_list,id_to_tuple,tuple_to_id):
+def createGraph(combo_list):
     node_list = []
 
     for i in range(0,len(combo_list)):        
         buf = combo_list[i].copy()
         x_position = buf.index('x')
         inner_buff = [] #lista de vizinhos
-
-        ref = buf #nao perder a referencia do buf. Se nao ele so realzia a primeira troca
-
 
         match x_position: #define quem são os vizinhos baseados na posição do x com um switch case
             case 8:
@@ -119,16 +116,33 @@ def createGraph(combo_list,id_to_tuple,tuple_to_id):
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
         
-        # print(inner_buff)
-        node_list.append(Node(i,inner_buff)) #nao sei se funciona, deve funcionar.
+        node_list.append(Node(i,inner_buff))
     return node_list
 
 print("Calculando permutações...")
 total_combo_list = permutation(1,9,list([]))
 # print(total_combo_list)
-print("tamanho da lista: ",len(total_combo_list))
-grafo = createGraph(total_combo_list,{},{})
+grafo = createGraph(total_combo_list)
+
+contador_de_arestas = 0
+
+id_to_tuple = createHash(total_combo_list)
+no_exemplo = 0
+no_exemplo_naoTemAresta = -1
 
 for no in grafo:
-    print(no.vizinhos)
+    # print(no.vizinhos) #RETIRAR COMENTARIO PARA VISUALIZAR A LISTA DE ADJACENCIAS
+    for aresta in no.vizinhos:
+        contador_de_arestas+=1
+    if(list(id_to_tuple[no_exemplo]) not in no.vizinhos and no_exemplo_naoTemAresta == -1 and list(id_to_tuple[no.id]) != list(id_to_tuple[no_exemplo])):
+        no_exemplo_naoTemAresta = no.id
 
+contador_de_arestas//=2
+
+print("nos que nao tem aresta entre si: ")
+print(list(id_to_tuple[no_exemplo]))
+print(list(id_to_tuple[no_exemplo_naoTemAresta]))
+
+
+print("quantidade total de nos: ",len(total_combo_list))
+print("quantidade total de arestas: ",contador_de_arestas)
