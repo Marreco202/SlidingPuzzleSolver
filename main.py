@@ -162,17 +162,19 @@ def BFS(G:list,s:Node):
     componente_conexas = 0
     camada = 0
     for no in G:
-        for vizinho in no.vizinhos:
-            id_vizinho = tuple_to_id[tuple(vizinho)]
+        if(not visitados[no.id]):
+            for vizinho in no.vizinhos:
+                id_vizinho = tuple_to_id[tuple(vizinho)]
 
-            if(visitados[id_vizinho] == False):
-                visitados[id_vizinho] = True
-                BFS(G,vizinho)
-                camada+=1
-                print("camada: ",camada)
-            else:
-                return                
-        componente_conexas+=1
+                if(visitados[id_vizinho] == False):
+                    visitados[id_vizinho] = True
+                    # print(visitados[:50])
+                    BFS(G,vizinho)
+                    camada+=1
+                    print("camada: ",camada)
+                else:
+                    return                
+            componente_conexas+=1
 
     return
 
