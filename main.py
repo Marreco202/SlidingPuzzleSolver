@@ -75,8 +75,6 @@ def createGraph(combo_list):
                 x_position = buf.index('x')
                 inner_buff.append(troca_x(buf,x_position,possible_moves[1]))
                 x_position = buf.index('x')
-                
-
             case 7:
                 possible_moves = (x_position+1,x_position-1,x_position-3)
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
@@ -126,7 +124,9 @@ grafo = createGraph(total_combo_list)
 
 contador_de_arestas = 0
 
-id_to_tuple = createHash(total_combo_list)
+id_to_tuple = createHash(total_combo_list) # <int> id --> <lista> estado
+tuple_to_id = invertDict(id_to_tuple) # <lista> estado --> <int> id
+
 no_exemplo = 0
 no_exemplo_naoTemAresta = -1
 
@@ -134,12 +134,15 @@ for no in grafo:
     # print(no.vizinhos) #RETIRAR COMENTARIO PARA VISUALIZAR A LISTA DE ADJACENCIAS
     for aresta in no.vizinhos:
         contador_de_arestas+=1
-    if(list(id_to_tuple[no_exemplo]) not in no.vizinhos and no_exemplo_naoTemAresta == -1 and list(id_to_tuple[no.id]) != list(id_to_tuple[no_exemplo])):
+    if(list(id_to_tuple[no_exemplo]) not in no.vizinhos and no_exemplo_naoTemAresta == -1 and list(id_to_tuple[no.id]) != list(id_to_tuple[no_exemplo])): #caso nao esteja nos vizinhos e nao seja o proprio no... (impossivel haver lacos)
         no_exemplo_naoTemAresta = no.id
 
-contador_de_arestas//=2
+contador_de_arestas//=2 # cada no é contado de forma duplicada
 
-print("nos que nao tem aresta entre si: ")
+'''
+    TAREFA 1
+'''
+print("nos que nao tem aresta entre si (movimento invalido): ")
 print(list(id_to_tuple[no_exemplo]))
 print(list(id_to_tuple[no_exemplo_naoTemAresta]))
 
