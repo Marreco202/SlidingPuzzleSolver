@@ -157,7 +157,7 @@ print("quantidade total de arestas: ",contador_de_arestas)
 visitados = []
 for i in range(0,len(grafo)): #marcando todos os nos como nao visitados
     visitados.append(False)
-
+''''''
 def BFS(G:list,s:Node):
     componente_conexas = 0
     camada = 0
@@ -177,5 +177,26 @@ def BFS(G:list,s:Node):
             componente_conexas+=1
 
     return
+from collections import deque
+
+#Pozao function
+def bfs(graph, start_index):
+    # Cria uma fila para BFS e marca o nó inicial como visitado
+    queue = deque([start_index])
+    visited = [False] * len(graph)
+    visited[start_index] = True
+    
+    while queue:
+        # Desenfileira um vértice da fila
+        vertex = queue.popleft()
+        print(vertex, end=" ")
+        
+        # Obtém todos os vértices adjacentes do vértice desenfileirado
+        # Se um vértice adjacente não foi visitado marca como visitado e enfileira
+        for neighbor in graph[vertex]:
+            if not visited[neighbor]:
+                visited[neighbor] = True
+                queue.append(neighbor)
 
 BFS(grafo,grafo[0])
+bfs(grafo,grafo[0])
