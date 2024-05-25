@@ -1,4 +1,4 @@
-class Node:
+class No:
     id = -1
     vizinhos = []
 

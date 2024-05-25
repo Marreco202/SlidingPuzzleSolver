@@ -18,7 +18,7 @@ Alunos:
     --> .insert(indicie) até indice len(n-1)
 
 '''
-from node import Node
+from node import No
 
 total_combo_list = []
 
@@ -72,9 +72,8 @@ def createGraph(combo_list):
         match x_position: #define quem são os vizinhos baseados na posição do x com um switch case
             case 8:
                 possible_moves = (x_position-1,x_position-3)
-                x_position = buf.index('x')
-                inner_buff.append(troca_x(buf,x_position,possible_moves[1]))
-                x_position = buf.index('x')
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
+                inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
             case 7:
                 possible_moves = (x_position+1,x_position-1,x_position-3)
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
@@ -113,8 +112,7 @@ def createGraph(combo_list):
                 possible_moves = (x_position+1,x_position+5)
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[0]))
                 inner_buff.append(troca_x(buf.copy(),x_position,possible_moves[1]))
-        
-        node_list.append(Node(i,inner_buff))
+        node_list.append(No(i,inner_buff))
     return node_list
 
 print("Calculando permutações...")
@@ -153,50 +151,35 @@ print("quantidade total de arestas: ",contador_de_arestas)
 '''
     TAREFA 2
 '''
-    
-visitados = []
-for i in range(0,len(grafo)): #marcando todos os nos como nao visitados
-    visitados.append(False)
-''''''
-def BFS(G:list,s:Node):
-    componente_conexas = 0
-    camada = 0
-    for no in G:
-        if(not visitados[no.id]):
-            for vizinho in no.vizinhos:
-                id_vizinho = tuple_to_id[tuple(vizinho)]
-
-                if(visitados[id_vizinho] == False):
-                    visitados[id_vizinho] = True
-                    # print(visitados[:50])
-                    BFS(G,vizinho)
-                    camada+=1
-                    print("camada: ",camada)
-                else:
-                    return                
-            componente_conexas+=1
-
-    return
-from collections import deque
 
 #Pozao function
-def bfs(graph, start_index):
-    # Cria uma fila para BFS e marca o nó inicial como visitado
-    queue = deque([start_index])
-    visited = [False] * len(graph)
-    visited[start_index] = True
-    
-    while queue:
-        # Desenfileira um vértice da fila
-        vertex = queue.popleft()
-        print(vertex, end=" ")
-        
-        # Obtém todos os vértices adjacentes do vértice desenfileirado
-        # Se um vértice adjacente não foi visitado marca como visitado e enfileira
-        for neighbor in graph[vertex]:
-            if not visited[neighbor]:
-                visited[neighbor] = True
-                queue.append(neighbor)
+def bfs(G:list,s:No):
 
-BFS(grafo,grafo[0])
+    visitados = [False] * len(G)
+    fila = [s]
+
+    componentes_conexas = 1
+
+    while fila: 
+        no_buf = fila[0]
+        id_buf = no_buf.id
+
+        if(visitados[id_buf] == False): #adiciona os vizinhos do primeiro no da fila na lista
+            for no in fila[0].vizinhos:
+                fila.append(G[tuple_to_id[tuple(no)]])
+            visitados[id_buf] = True
+        
+        fila.pop(0)
+        if(not fila and False in visitados):
+            fila.append(G[visitados.index(False)])
+            componentes_conexas+=1
+        
+    print("componentes_conexas: ",componentes_conexas)
+    return
+
+
 bfs(grafo,grafo[0])
+
+'''
+    TAREFA 3
+'''
