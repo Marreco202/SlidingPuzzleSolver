@@ -149,7 +149,7 @@ print("quantidade total de nos: ",len(total_combo_list))
 print("quantidade total de arestas: ",contador_de_arestas)
 
 '''
-    TAREFA 2
+    TAREFA 2 e 3
 '''
 
 #Pozao function
@@ -161,6 +161,8 @@ def bfs(G:list,s:No):
     total_camadas = 0
     componentes_conexas = 1
 
+    jogo_inicial_maximo = []
+
     while fila: 
         no_buf = fila[0]
         camada = fila[0][1]
@@ -170,23 +172,38 @@ def bfs(G:list,s:No):
             for no in fila[0][0].vizinhos:
                 fila.append((G[tuple_to_id[tuple(no)]],camada+1))
             visitados[id_buf] = True
+            # print(camada)
         
         if(len(fila) == 1):
-            # print(total_camadas)
             total_camadas = camada
+            # print(total_camadas)
+
+        if(camada == 31 and componentes_conexas == 1):
+            # print(list(id_to_tuple[fila[0][0].id]))
+            jogo_inicial_maximo.append(list(id_to_tuple[fila[0][0].id]))
 
         fila.pop(0)
         if(not fila and False in visitados):
+            # print("camadas da componente conexa {a}: {b}".format(a = componentes_conexas,b = camada))
             fila.append((G[visitados.index(False)],0))
             componentes_conexas+=1
     
     print("componentes_conexas: ",componentes_conexas)
     print("total camadas: ",total_camadas)
+    return jogo_inicial_maximo
+
+def print_matrix(lista):
+    #parte do principio que toda lista tem tamanho 9 (matriz 3x3)
+    i = 0
+    while i<len(lista):
+        print("|" , (lista[i]), (lista[i+1]), (lista[i+2]) , "|")
+        i+=3
     return
 
+max_movimentos = bfs(grafo,grafo[0])
 
-bfs(grafo,grafo[0])
-
-'''
-    TAREFA 3
-'''
+print("Exemplo de configuração inicial que precisa de 31 movimentos até atingir a solução: ")
+print_matrix(max_movimentos[0])
+# print(max_movimentos[0])
+print("e")
+print_matrix(max_movimentos[1])
