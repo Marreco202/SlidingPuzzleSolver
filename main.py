@@ -156,25 +156,32 @@ print("quantidade total de arestas: ",contador_de_arestas)
 def bfs(G:list,s:No):
 
     visitados = [False] * len(G)
-    fila = [s]
+    fila = [(s,0)]
 
+    total_camadas = 0
     componentes_conexas = 1
 
     while fila: 
         no_buf = fila[0]
-        id_buf = no_buf.id
+        camada = fila[0][1]
+        id_buf = no_buf[0].id
 
         if(visitados[id_buf] == False): #adiciona os vizinhos do primeiro no da fila na lista
-            for no in fila[0].vizinhos:
-                fila.append(G[tuple_to_id[tuple(no)]])
+            for no in fila[0][0].vizinhos:
+                fila.append((G[tuple_to_id[tuple(no)]],camada+1))
             visitados[id_buf] = True
         
+        if(len(fila) == 1):
+            # print(total_camadas)
+            total_camadas = camada
+
         fila.pop(0)
         if(not fila and False in visitados):
-            fila.append(G[visitados.index(False)])
+            fila.append((G[visitados.index(False)],0))
             componentes_conexas+=1
-        
+    
     print("componentes_conexas: ",componentes_conexas)
+    print("total camadas: ",total_camadas)
     return
 
 
