@@ -2,7 +2,9 @@
 
 Sliding 3x3 Puzzle solver using graphs and Breadth-First Search(BFS). Finds the maximum number of steps to resolve any input game, total nodes, total edges, and total connected components.
 
-![3b3puzzle](https://github.com/Marreco202/SlidingPuzzleSolver/assets/76889373/25cc32a0-8ed3-487b-b7c4-eca6289de2f8)
+<p  align="center">
+<img  src="https://github.com/Marreco202/SlidingPuzzleSolver/assets/76889373/25cc32a0-8ed3-487b-b7c4-eca6289de2f8"  />
+</p>
 
 ## Why graphs?
 
