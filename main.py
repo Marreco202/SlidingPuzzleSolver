@@ -153,7 +153,7 @@ print("quantidade total de arestas: ",contador_de_arestas)
     TAREFA 2 e 3
 '''
 
-#Pozao function
+
 def bfs(G:list,s:No):
     visitados = [False] * len(G)
     fila = [(s,0)]
@@ -202,6 +202,3 @@ max_movimentos = bfs(grafo,grafo[0])
 
 print("Exemplo de configuração inicial que precisa de 31 movimentos até atingir a solução: ")
 print_matrix(max_movimentos[0])
-# print(max_movimentos[0])
-# print("e")
-# print_matrix(max_movimentos[1])
