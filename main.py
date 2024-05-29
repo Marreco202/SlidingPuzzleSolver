@@ -141,8 +141,9 @@ contador_de_arestas//=2 # cada no é contado de forma duplicada
     TAREFA 1
 '''
 print("nos que nao tem aresta entre si (movimento invalido): ")
-print(list(id_to_tuple[no_exemplo]))
-print(list(id_to_tuple[no_exemplo_naoTemAresta]))
+print("nó referência: ",list(id_to_tuple[no_exemplo]))
+print("nó vizinho do nó referência: ", grafo[no_exemplo].vizinhos[0])
+print("não vizinho do nó referência: ",list(id_to_tuple[no_exemplo_naoTemAresta]))
 
 
 print("quantidade total de nos: ",len(total_combo_list))
@@ -154,7 +155,6 @@ print("quantidade total de arestas: ",contador_de_arestas)
 
 #Pozao function
 def bfs(G:list,s:No):
-
     visitados = [False] * len(G)
     fila = [(s,0)]
 
@@ -173,11 +173,9 @@ def bfs(G:list,s:No):
                 fila.append((G[tuple_to_id[tuple(no)]],camada+1))
             visitados[id_buf] = True
             # print(camada)
-        
         if(len(fila) == 1):
             total_camadas = camada
             # print(total_camadas)
-
         if(camada == 31 and componentes_conexas == 1):
             # print(list(id_to_tuple[fila[0][0].id]))
             jogo_inicial_maximo.append(list(id_to_tuple[fila[0][0].id]))
@@ -205,5 +203,5 @@ max_movimentos = bfs(grafo,grafo[0])
 print("Exemplo de configuração inicial que precisa de 31 movimentos até atingir a solução: ")
 print_matrix(max_movimentos[0])
 # print(max_movimentos[0])
-print("e")
-print_matrix(max_movimentos[1])
+# print("e")
+# print_matrix(max_movimentos[1])
