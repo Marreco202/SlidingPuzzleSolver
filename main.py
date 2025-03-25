@@ -12,40 +12,6 @@ SlidingPuzzleSolver
 from queue import SimpleQueue
 from time import perf_counter
 
-# for i in range(0,10):
-#     q.put(i)
-
-# for i in range(0,10):
-#     print(q.get())
-
-#metodos get e put  
-
-total_combo_list = []
-
-#Funcao antiga
-
-def permutation(ini,n,combo):
-    if(ini == n):
-        qg = []
-        for i in range(0,n):
-            combo.insert(i,'x')
-            total_combo_list.append(combo)
-            buf = combo.copy()
-            qg.append(buf)
-            combo.remove('x')
-        return qg
-
-    permu_list = []
-    for i in range(0,ini):
-        combo.insert(i,ini)
-        r = permutation(ini+1,n,combo)
-        for el in r:
-            permu_list.append(el)
-        combo.remove(ini)
-    return permu_list
-
-
-
 '''
 
 Caso base: lista apenas com o numero 1 ;  2 espacos possiveis para inserção
@@ -62,9 +28,9 @@ def get_permutation_list(n:int):
 
     '''
 
-    lista_tam = n*n #Sempre será uma matriz quadrada
+    n = n*n #Sempre será uma matriz quadrada
     permu_queue = SimpleQueue()
-    permu_queue.put([1])
+    permu_queue.put([1]) #TODO: CORRIGIR ISSO AQUI. POR CAUSA DISSO, EU TENHO QUE REMOVER OS 1's NO FINAL!
 
 
     while(True): #Enquanto todos os elementos da lista de permutacões forem menores do que 9, então continue permutando
@@ -82,28 +48,39 @@ def get_permutation_list(n:int):
         else: #Caso contrario, ainda precisa inserir numeros distintos para a permutacao
             for i in range(0,tam):
                 buf = to_permute.copy()
-                buf.insert(i,i+1) #exemplo: se a lista tem 2 elementos, entao esses são os elementos [1,2], logo tenho que inserir o 3 em 3 posicoes, 0 1 2
+                buf.insert(i+1,tam+1) #exemplo: se a lista tem 2 elementos, entao esses são os elementos [1,2], logo tenho que inserir o 3 em 3 posicoes, 0 1 2
                 permu_queue.put(buf)
 
+    queue_size = permu_queue.qsize()
+    print(queue_size)
+    permu_list = []
 
-    print(permu_queue.qsize())
+    for i in range(0,queue_size):
+        list_buf = permu_queue.get()
+        list_buf.pop(0)
+        permu_list.append(list_buf)
 
-    return
 
-t1_start = perf_counter()
-permutation(1,9,list([]))
-t1_end = perf_counter()
+    return permu_list
 
-r1 = t1_end - t1_start
 
 t2_start = perf_counter()
-get_permutation_list(3)
+lista = get_permutation_list(3)
+
 t2_end = perf_counter()
 
 r2 = t2_end - t2_start
 
 
-print(f"permutation resultado: {t1_end-t1_start}")
 print(f"get_permutation_list resultado: {t2_end-t2_start}")
+print(len(lista))
 
-print(f"r2/r1 : {r2/r1}%")
+# for el in lista:
+#     print(el)
+
+##TODO:
+# 1- TESTAR COMBINACOES DE PERMUTACOES MELHOR --> SUSPEITA DE NAO ESTAR FAZENDO TODAS AS COMBINACOES
+
+# 2- MONTAR O GRAFO A PARTIR DE CADA POSSIBILIDADE DE PERMUTACAO
+# 3- DESCOBRIR COMPONENTES CONEXAS
+# 4- VER QUAIS
