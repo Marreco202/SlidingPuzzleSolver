@@ -48,7 +48,7 @@ def get_permutation_list(n:int):
         else: #Caso contrario, ainda precisa inserir numeros distintos para a permutacao
             for i in range(0,tam):
                 buf = to_permute.copy()
-                buf.insert(i+1,tam+1) #exemplo: se a lista tem 2 elementos, entao esses são os elementos [1,2], logo tenho que inserir o 3 em 3 posicoes, 0 1 2
+                buf.insert(i+1,tam) #exemplo: se a lista tem 2 elementos, entao esses são os elementos [1,2], logo tenho que inserir o 3 em 3 posicoes, 0 1 2
                 permu_queue.put(buf)
 
     queue_size = permu_queue.qsize()
@@ -74,6 +74,7 @@ r2 = t2_end - t2_start
 
 print(f"get_permutation_list resultado: {t2_end-t2_start}")
 print(len(lista))
+print(lista[0])
 
 # for el in lista:
 #     print(el)
