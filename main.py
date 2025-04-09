@@ -63,81 +63,72 @@ def get_permutation_list(n:int):
 
     return permu_list
 
+def create_adj_dict(permu_list: list) -> dict:
 
-t2_start = perf_counter()
-lista = get_permutation_list(3)
-
-t2_end = perf_counter()
-
-r2 = t2_end - t2_start
+    dicio_adj = {}
 
 
-print(f"1. get_permutation_list resultado: {t2_end-t2_start}")
-# print(len(lista))
+    for current_state in lista:
+        where_is_x = current_state.index(9) # O numero 9 representa o espaço vazio 'x' do quebra-cabeça 3x3
+        vizinhos = [where_is_x - 1, where_is_x + 1,where_is_x - 3, where_is_x + 3] #assume que todo tile tem 4 adjacencias | esquerda, direita, cima, baixo
+
+        if(where_is_x % 3 == 0): # ou seja, coluna da esquerda...
+            vizinhos.remove(where_is_x-1)
+        elif(where_is_x%3 == 2): # ou seja, coluna da direita...
+            vizinhos.remove(where_is_x+1)
+
+        for v in vizinhos:
+            if v < 0 or v >= 9:
+                vizinhos.remove(v) #remove todos os vizinhos que são posicoes invalidas
+
+        new_value = []
+        
+        # vizinhos:
+            # 1 2 3
+            # 4 5 6
+            # 7 8 9
 
 
-len_lista = len(lista)
+        for v in vizinhos: # vizinhos: lista de indices na matriz de quem sao seus vizinhos
+            # print("======")
+            buf_state = current_state.copy() # estado buffer para nao ferrar com a referncia para outras chamadas
+            # print('estado atual: ',buf_state)
+            to_trade = current_state[v] # valor adjacente a ser trocado. v é o indice dele no estado atual
+            # print('quem eu quero trocar de lugar: ',to_trade)
+            buf_state.remove(9) # remove o 'x'
+            buf_state.insert(v,9) # move o 'x' para a posicao do adjacente
+            buf_state.remove(to_trade) # remove o valor do vizinho adjacente ao buraco antigo
+            buf_state.insert(where_is_x,to_trade) # insere ele na antiga posicao do 'x'
+            new_value.append(tuple(buf_state)) # adiciona nova tupla como sendo valor valido a partir do current_state
+            # print("estado final: ",buf_state)
+            # print("======")
+        
+        dicio_adj[tuple(current_state)] = new_value # adiciona no dicionario lista de tuplas vizinhas
 
-# Converte todos os elementos em tuplas -> Agora elas podem ser utilizadas como chaves no dicionario
-# for i in range(0,len_lista):
-#     lista[i] = tuple(lista[i])
+
+    return dicio_adj
+
+if __name__  == "__main__":
+    
+    t2_start = perf_counter()
+
+    lista = get_permutation_list(3)
+    t2_end = perf_counter()
+
+    r2 = t2_end - t2_start
+
+    print(f"1. get_permutation_list resultado: {t2_end-t2_start}")
+
+    adj_dict = create_adj_dict(lista)
+
+    print(f"2. dicio_adj resultado: {perf_counter() - t2_start}")
 
 
-# print(lista[0])
-# for el in lista:
-#     print(el)
 
 ##TODO:
 # 1- TESTAR COMBINACOES DE PERMUTACOES MELHOR --> SUSPEITA DE NAO ESTAR FAZENDO TODAS AS COMBINACOES (CHECK)
 
-# 2- MONTAR O GRAFO A PARTIR DE CADA POSSIBILIDADE DE PERMUTACAO
-
-dicio_adj = {}
-
-
-for current_state in lista:
-    where_is_x = current_state.index(9) # O numero 9 representa o espaço vazio 'x' do quebra-cabeça 3x3
-    vizinhos = [where_is_x - 1, where_is_x + 1,where_is_x - 3, where_is_x + 3] #assume que todo tile tem 4 adjacencias | esquerda, direita, cima, baixo
-
-    if(where_is_x % 3 == 0): # ou seja, coluna da esquerda...
-        vizinhos.remove(where_is_x-1)
-    elif(where_is_x%3 == 2): # ou seja, coluna da direita...
-        vizinhos.remove(where_is_x+1)
-
-    for v in vizinhos:
-        if v < 0 or v >= 9:
-            vizinhos.remove(v) #remove todos os vizinhos que são posicoes invalidas
-
-    new_value = []
-    
-    # vizinhos:
-        # 1 2 3
-        # 4 5 6
-        # 7 8 9
-
-
-    for v in vizinhos: # vizinhos: lista de indices na matriz de quem sao seus vizinhos
-        # print("======")
-        buf_state = current_state.copy() # estado buffer para nao ferrar com a referncia para outras chamadas
-        # print('estado atual: ',buf_state)
-        to_trade = current_state[v] # valor adjacente a ser trocado. v é o indice dele no estado atual
-        # print('quem eu quero trocar de lugar: ',to_trade)
-        buf_state.remove(9) # remove o 'x'
-        buf_state.insert(v,9) # move o 'x' para a posicao do adjacente
-        buf_state.remove(to_trade) # remove o valor do vizinho adjacente ao buraco antigo
-        buf_state.insert(where_is_x,to_trade) # insere ele na antiga posicao do 'x'
-        new_value.append(tuple(buf_state)) # adiciona nova tupla como sendo valor valido a partir do current_state
-        # print("estado final: ",buf_state)
-        # print("======")
-    
-    dicio_adj[tuple(current_state)] = new_value # adiciona no dicionario lista de tuplas vizinhas
-
-
-print(f"2. dicio_adj resultado: {perf_counter() - t2_start}")
-
-# testar corretamente se a lista de adjacência está correta
-# for el in dicio_adj:
-#     print(f"chave : {el} ; valor: {dicio_adj[el]}")
+# 2- MONTAR O GRAFO A PARTIR DE CADA POSSIBILIDADE DE PERMUTACAO (CHECK)
 
 # 3- DESCOBRIR COMPONENTES CONEXAS
 # 4- CRIAR FUNCAO QUE, DADO ESTADO INICIAL, FAZ PASSO A PASSO DA SOLUCAO.
