@@ -11,6 +11,8 @@ SlidingPuzzleSolver
 '''
 from queue import SimpleQueue
 from time import perf_counter, sleep
+import networkx as nx
+import matplotlib.pyplot as plt
 
 '''
 
@@ -109,7 +111,7 @@ def create_adj_dict(permu_list: list) -> dict:
     return dicio_adj
 
 if __name__  == "__main__":
-    
+
     t2_start = perf_counter()
 
     lista = get_permutation_list(3)
@@ -117,13 +119,30 @@ if __name__  == "__main__":
 
     r2 = t2_end - t2_start
 
+    # Cria estados
+
     print(f"1. get_permutation_list resultado: {t2_end-t2_start}")
 
     adj_dict = create_adj_dict(lista)
 
+    # Cria estados
+
     print(f"2. dicio_adj resultado: {perf_counter() - t2_start}")
 
+    G = nx.Graph()
 
+    tam = len(lista)
+
+    i = 0
+
+    for key in adj_dict:
+        G.add_node((i, tuple(adj_dict[key])))
+        i+=1
+
+    # print(G)
+
+    nx.draw(G)
+    plt.show()
 
 ##TODO:
 # 1- TESTAR COMBINACOES DE PERMUTACOES MELHOR --> SUSPEITA DE NAO ESTAR FAZENDO TODAS AS COMBINACOES (CHECK)
