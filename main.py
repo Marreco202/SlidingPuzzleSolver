@@ -97,12 +97,12 @@ dicio_adj = {}
 
 for current_state in lista:
     where_is_x = current_state.index(9) # O numero 9 representa o espaço vazio 'x' do quebra-cabeça 3x3
-    vizinhos = [where_is_x - 1, where_is_x + 1,where_is_x - 3, where_is_x + 3] #assume que todo tile tem 4 adjacencias
+    vizinhos = [where_is_x - 1, where_is_x + 1,where_is_x - 3, where_is_x + 3] #assume que todo tile tem 4 adjacencias | esquerda, direita, cima, baixo
 
-    if(where_is_x % 3 == 0): # ou seja, coluna da direita...
-        vizinhos.remove(where_is_x+1)
-    elif(where_is_x%3 == 2): # ou seja, coluna da esquerda...
+    if(where_is_x % 3 == 0): # ou seja, coluna da esquerda...
         vizinhos.remove(where_is_x-1)
+    elif(where_is_x%3 == 2): # ou seja, coluna da direita...
+        vizinhos.remove(where_is_x+1)
 
     for v in vizinhos:
         if v < 0 or v >= 9:
