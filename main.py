@@ -70,7 +70,7 @@ def create_adj_dict(permu_list: list) -> dict:
     dicio_adj = {}
 
 
-    for current_state in lista:
+    for current_state in permu_list:
         where_is_x = current_state.index(9) # O numero 9 representa o espaço vazio 'x' do quebra-cabeça 3x3
         vizinhos = [where_is_x - 1, where_is_x + 1,where_is_x - 3, where_is_x + 3] #assume que todo tile tem 4 adjacencias | esquerda, direita, cima, baixo
 
@@ -139,10 +139,6 @@ if __name__  == "__main__":
         G.add_node((i, tuple(adj_dict[key])))
         i+=1
 
-    # print(G)
-
-    nx.draw(G)
-    plt.show()
 
 ##TODO:
 # 1- TESTAR COMBINACOES DE PERMUTACOES MELHOR --> SUSPEITA DE NAO ESTAR FAZENDO TODAS AS COMBINACOES (CHECK)
